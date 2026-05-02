@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 绿固科技有限公司</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #1f2329;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            letter-spacing: 2px;
+        }
+
+        .nav-scrolled .logo {
+            color: #00a859; 
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-scrolled .nav-links a {
+            color: #1f2329;
+        }
+
+        .nav-scrolled .nav-links a:hover {
+            color: #00a859;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 2px;
+            border-radius: 2px;
+            background: currentColor;
+        }
+
+        .nav-scrolled .nav-links a.active {
+            color: #00a859;
+            font-weight: 600;
+        }
+
+        /* 子页面 Hero Section 高度变矮 */
+        .hero {
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+        }
+
+        .breadcrumb {
+            margin-top: 18px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 80px;
+            color: #1f2329;
+        }
+
+        /* 卡片网格布局（复用样式） */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 { font-size: 1.5rem; margin-bottom: 16px; color: #1f2329; }
+        .card p { font-size: 1rem; color: #646a73; }
+
+        /* 关于我们区块样式 */
+        .about-content {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            font-size: 1.25rem;
+            line-height: 2;
+            color: #646a73;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .timeline-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px 24px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .timeline-year {
+            color: #00a859;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            color: #646a73;
+            font-size: 0.98rem;
+            line-height: 1.9;
+        }
+
+        .btn-group {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #00a859;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #008f4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #1f2329;
+            border: 1px solid #dee0e3;
+        }
+
+        .btn-outline:hover {
+            border-color: #00a859;
+            color: #00a859;
+        }
+
+        .official-cta {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 58px 32px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e7eaee;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .official-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 14px;
+            color: #1f2329;
+        }
+
+        .official-cta p {
+            color: #646a73;
+            font-size: 1.05rem;
+        }
+
+        footer {
+            background-color: #1f2329;
+            color: #8f959e;
+            padding: 70px 20px 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: #a4aab3;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: #a4aab3;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            font-size: 0.88rem;
+            color: #7f8793;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                padding: 0 16px;
+                height: 58px;
+            }
+
+            .logo {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 56px;
+            }
+
+            section {
+                padding: 90px 16px;
+            }
+
+            .official-cta {
+                margin: 0 16px 70px;
+                padding: 42px 20px;
+            }
+
+            .official-cta h2 {
+                font-size: 1.6rem;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            footer {
+                padding: 54px 16px 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                max-width: 72%;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo">绿固科技 LÜGU</a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="product.html">核心产品</a>
+            <a href="service.html">技术服务</a>
+            <a href="about.html" class="active">关于我们</a>
+            <a href="contact.html">联系我们</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>关于我们</h1>
+        <p>科技是推动可持续发展的核心引擎</p>
+        <div class="breadcrumb"><a href="index.html">首页</a> / 关于我们</div>
+    </header>
+
+    <section>
+        <h2 class="section-title reveal">公司简介</h2>
+        <div class="about-content reveal">
+            <p>绿固科技有限公司（Lügu Technology）成立于 2026 年，是一家专注于环保新材料研发、生产与销售的创新型企业。<br><br>我们的主营业务为各类高性能<strong>固化剂</strong>（如淤泥固化剂、渣土固化剂、尾矿固化剂等）的销售，并为不同行业的客户提供<strong>定制化的固化解决方案</strong>。通过不断优化材料配方与施工工艺，我们致力于帮助市政、基建、矿山等领域的客户实现固废资源化利用，降低处理成本，共建绿色可持续的生态环境。</p>
+        </div>
+    </section>
+
+    <!-- 企业文化 -->
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal">愿景与使命</h2>
+            <div class="products-grid">
+                <div class="card reveal">
+                    <h3>我们的愿景</h3>
+                    <p>成为全球领先的绿色固态科技创新者，让清洁能源触手可及。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>我们的使命</h3>
+                    <p>以科技创新驱动产业升级，为地球的可持续发展贡献核心力量。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>核心价值观</h3>
+                    <p>求真务实、开拓创新、合作共赢、绿色担当。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title reveal">发展历程</h2>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-year">2026</div>
+                <p>公司成立，聚焦各类环保固化剂配方研发及土壤改良技术，完成核心技术团队组建。</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-year">2027</div>
+                <p>完成多项淤泥及渣土固化剂的实验室验证，与多家市政、建筑企业建立合作关系。</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-year">2028</div>
+                <p>实现市政河道、矿山尾矿等多场景规模化应用，建立起“产品销售+配方定制”的双驱动模式。</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-year">2029+</div>
+                <p>持续拓展海内外业务网络，推动固化剂及固废资源化利用方案在更多行业落地应用。</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal">团队与能力</h2>
+            <div class="products-grid">
+                <div class="card reveal">
+                    <h3>多学科人才结构</h3>
+                    <p>团队覆盖材料学、化学工程、环境工程与岩土工程等领域，形成从研发生产到落地施工的完整服务闭环。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>研发投入占比高</h3>
+                    <p>坚持长期主义研发策略，持续加大针对特殊地质与复杂固废的固化配方研发投入，保持技术领先性。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>开放协同生态</h3>
+                    <p>与高校、科研院所以及产业链伙伴共建联合创新机制，加速科研成果转化应用。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="official-cta reveal">
+        <h2>与绿固共建长期创新合作</h2>
+        <p>我们欢迎产业伙伴、科研机构与优秀人才共同加入绿色科技生态建设。</p>
+        <div class="btn-group">
+            <a href="contact.html" class="btn btn-primary">发起合作沟通</a>
+            <a href="product.html" class="btn btn-outline">查看产品能力</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <h3 class="footer-title">绿固科技有限公司</h3>
+                <p class="footer-text">科技赋能绿色，创新固本未来</p>
+                <p class="footer-text">地址：北京市海淀区科技园绿固大厦</p>
+                <p class="footer-text">电话：400-888-8888</p>
+            </div>
+            <div>
+                <h3 class="footer-title">快速导航</h3>
+                <a class="footer-link" href="product.html">核心产品</a><br>
+                <a class="footer-link" href="service.html">技术服务</a><br>
+                <a class="footer-link" href="about.html">关于我们</a><br>
+                <a class="footer-link" href="contact.html">联系我们</a>
+            </div>
+            <div>
+                <h3 class="footer-title">商务与招聘</h3>
+                <p class="footer-text">商务合作：business@lugu-tech.com</p>
+                <p class="footer-text">人才招聘：hr@lugu-tech.com</p>
+                <p class="footer-text">服务时间：工作日 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 绿固科技有限公司 版权所有 | 京ICP备 XXXXXXXX号 | 京公网安备 XXXXXXXXXX号
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        reveal();
+    </script>
+</body>
+</html>

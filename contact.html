@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 绿固科技有限公司</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #1f2329;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            letter-spacing: 2px;
+        }
+
+        .nav-scrolled .logo {
+            color: #00a859; 
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-scrolled .nav-links a {
+            color: #1f2329;
+        }
+
+        .nav-scrolled .nav-links a:hover {
+            color: #00a859;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 2px;
+            border-radius: 2px;
+            background: currentColor;
+        }
+
+        .nav-scrolled .nav-links a.active {
+            color: #00a859;
+            font-weight: 600;
+        }
+
+        .hero {
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+        }
+
+        .breadcrumb {
+            margin-top: 18px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 80px;
+            color: #1f2329;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: #f4f5f6;
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #ffffff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: #1f2329;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #646a73;
+            margin-bottom: 8px;
+        }
+
+        /* 表单样式 */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .form-control {
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #dee0e3;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #00a859;
+            box-shadow: 0 0 0 3px rgba(0, 168, 89, 0.1);
+        }
+        .btn-submit {
+            background-color: #00a859;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: #008f4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 28px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-item h3 {
+            font-size: 1.2rem;
+            color: #1f2329;
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
+            color: #646a73;
+            margin-bottom: 0;
+        }
+
+        .btn-group {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #00a859;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #008f4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #1f2329;
+            border: 1px solid #dee0e3;
+        }
+
+        .btn-outline:hover {
+            border-color: #00a859;
+            color: #00a859;
+        }
+
+        .official-cta {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 58px 32px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e7eaee;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .official-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 14px;
+            color: #1f2329;
+        }
+
+        .official-cta p {
+            color: #646a73;
+            font-size: 1.05rem;
+        }
+
+        footer {
+            background-color: #1f2329;
+            color: #8f959e;
+            padding: 70px 20px 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: #a4aab3;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: #a4aab3;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            font-size: 0.88rem;
+            color: #7f8793;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                padding: 0 16px;
+                height: 58px;
+            }
+
+            .logo {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 56px;
+            }
+
+            section {
+                padding: 90px 16px;
+            }
+
+            .contact-form {
+                padding: 26px 20px;
+            }
+
+            .official-cta {
+                margin: 0 16px 70px;
+                padding: 42px 20px;
+            }
+
+            .official-cta h2 {
+                font-size: 1.6rem;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            footer {
+                padding: 54px 16px 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 12px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                max-width: 72%;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo">绿固科技 LÜGU</a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="product.html">核心产品</a>
+            <a href="service.html">技术服务</a>
+            <a href="about.html">关于我们</a>
+            <a href="contact.html" class="active">联系我们</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>联系我们</h1>
+        <p>加入绿固，共建可持续未来</p>
+        <div class="breadcrumb"><a href="index.html">首页</a> / 联系我们</div>
+    </header>
+
+    <section>
+        <h2 class="section-title reveal">联系方式</h2>
+        <div class="products-grid">
+            <div class="card reveal">
+                <h3>商务合作</h3>
+                <p>电话：400-888-8888</p>
+                <p>邮箱：business@lugu-tech.com</p>
+            </div>
+            <div class="card reveal">
+                <h3>加入我们</h3>
+                <p>我们正在寻找顶尖科研与工程人才！</p>
+                <p>简历投递：hr@lugu-tech.com</p>
+            </div>
+            <div class="card reveal">
+                <h3>公司地址</h3>
+                <p>马鞍山创业园</p>
+                <p>期待您的莅临与交流指导。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 在线留言表单 -->
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal" style="margin-bottom: 40px;">在线留言</h2>
+            <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('感谢您的留言！我们已收到您的信息，将尽快与您联系。');">
+                <input type="text" class="form-control" placeholder="您的姓名" required>
+                <input type="email" class="form-control" placeholder="您的邮箱" required>
+                <select class="form-control" required>
+                    <option value="" disabled selected>请选择咨询类型</option>
+                    <option value="business">商务合作</option>
+                    <option value="hr">加入我们</option>
+                    <option value="other">其他</option>
+                </select>
+                <textarea class="form-control" rows="5" placeholder="您的留言内容" required></textarea>
+                <button type="submit" class="btn-submit">提交留言</button>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title reveal">来访与接待信息</h2>
+        <div class="products-grid">
+            <div class="card reveal">
+                <h3>接待时间</h3>
+                <p>工作日 09:00 - 18:00</p>
+                <p>建议提前 1-2 个工作日预约</p>
+            </div>
+            <div class="card reveal">
+                <h3>来访流程</h3>
+                <p>电话或邮件预约</p>
+                <p>到访登记 -> 现场交流 -> 方案沟通</p>
+            </div>
+            <div class="card reveal">
+                <h3>交通建议</h3>
+                <p>地铁与公交均可直达园区</p>
+                <p>自驾访客可使用园区临时停车位</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal">常见咨询问题</h2>
+            <div class="products-grid">
+                <div class="faq-item reveal">
+                    <h3>项目从沟通到方案需要多久？</h3>
+                    <p>通常在收到您的土壤或淤泥样本后 3-5 个工作日内，我们将出具免费的实验室测试报告及固化剂配方初步方案。</p>
+                </div>
+                <div class="faq-item reveal">
+                    <h3>是否支持联合研发与定制开发？</h3>
+                    <p>支持。我们主打定制化服务，可根据您的工程预算、场地条件与最终强度要求，进行专属固化剂的研发调配。</p>
+                </div>
+                <div class="faq-item reveal">
+                    <h3>除了产品销售，还提供哪些指导？</h3>
+                    <p>除了出售标准化的固化剂产品，我们还会提供现场驻点技术支持、搅拌设备选型建议以及完整的施工工艺培训，确保固化效果安全落地。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="official-cta reveal">
+        <h2>希望更快获得反馈？</h2>
+        <p>可直接通过商务邮箱发送项目背景与需求，我们将在 1 个工作日内安排专人联系。</p>
+        <div class="btn-group">
+            <a href="service.html" class="btn btn-primary">查看服务流程</a>
+            <a href="product.html" class="btn btn-outline">查看产品手册</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <h3 class="footer-title">绿固科技有限公司</h3>
+                <p class="footer-text">科技赋能绿色，创新固本未来</p>
+                <p class="footer-text">地址：马鞍山创业园</p>
+                <p class="footer-text">电话：400-888-8888</p>
+            </div>
+            <div>
+                <h3 class="footer-title">快速导航</h3>
+                <a class="footer-link" href="product.html">核心产品</a><br>
+                <a class="footer-link" href="service.html">技术服务</a><br>
+                <a class="footer-link" href="about.html">关于我们</a><br>
+                <a class="footer-link" href="contact.html">联系我们</a>
+            </div>
+            <div>
+                <h3 class="footer-title">商务与招聘</h3>
+                <p class="footer-text">商务合作：business@lugu-tech.com</p>
+                <p class="footer-text">人才招聘：hr@lugu-tech.com</p>
+                <p class="footer-text">服务时间：工作日 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 绿固科技有限公司 版权所有 | 京ICP备 XXXXXXXX号 | 京公网安备 XXXXXXXXXX号
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        reveal();
+    </script>
+</body>
+</html>

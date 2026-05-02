@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术服务 - 绿固科技有限公司</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #1f2329;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 3px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .nav-scrolled .logo {
+            color: #00a859; 
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-scrolled .nav-links a {
+            color: #1f2329;
+        }
+
+        .nav-scrolled .nav-links a:hover {
+            color: #00a859;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 2px;
+            border-radius: 2px;
+            background: currentColor;
+        }
+
+        .nav-scrolled .nav-links a.active {
+            color: #00a859;
+            font-weight: 600;
+        }
+
+        .hero {
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+        }
+
+        .breadcrumb {
+            margin-top: 18px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 80px;
+            color: #1f2329;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: #f4f5f6;
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #ffffff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: #1f2329;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #646a73;
+        }
+
+        /* 服务流程样式 */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .step-icon {
+            width: 64px;
+            height: 64px;
+            background: #e8f5e9;
+            color: #00a859;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        .step-card:hover .step-icon {
+            transform: scale(1.1);
+        }
+
+        .highlight-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 34px 28px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid #00a859;
+        }
+
+        .highlight-box h3 {
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            color: #1f2329;
+        }
+
+        .highlight-box p {
+            color: #646a73;
+        }
+
+        .btn-group {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #00a859;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #008f4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #1f2329;
+            border: 1px solid #dee0e3;
+        }
+
+        .btn-outline:hover {
+            border-color: #00a859;
+            color: #00a859;
+        }
+
+        .official-cta {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 58px 32px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e7eaee;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .official-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 14px;
+            color: #1f2329;
+        }
+
+        .official-cta p {
+            color: #646a73;
+            font-size: 1.05rem;
+        }
+
+        footer {
+            background-color: #1f2329;
+            color: #8f959e;
+            padding: 70px 20px 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: #a4aab3;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: #a4aab3;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            font-size: 0.88rem;
+            color: #7f8793;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                padding: 0 16px;
+                height: 58px;
+            }
+
+            .logo img {
+                width: 34px;
+                height: 34px;
+            }
+
+            .logo-text {
+                font-size: 17px;
+                letter-spacing: 1px;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 56px;
+            }
+
+            section {
+                padding: 90px 16px;
+            }
+
+            .official-cta {
+                margin: 0 16px 70px;
+                padding: 42px 20px;
+            }
+
+            .official-cta h2 {
+                font-size: 1.6rem;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            footer {
+                padding: 54px 16px 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 12px;
+            }
+
+            .logo {
+                gap: 8px;
+            }
+
+            .logo img {
+                width: 30px;
+                height: 30px;
+                border-radius: 6px;
+                padding: 2px;
+            }
+
+            .logo-text {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                max-width: 72%;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="绿固科技有限公司 Logo">
+            <span class="logo-text">绿固科技 LUGU</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="product.html">核心产品</a>
+            <a href="service.html" class="active">技术服务</a>
+            <a href="about.html">关于我们</a>
+            <a href="contact.html">联系我们</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>技术服务</h1>
+        <p>专业的固化解决方案与定制开发服务</p>
+        <div class="breadcrumb"><a href="index.html">首页</a> / 技术服务</div>
+    </header>
+
+    <section>
+        <h2 class="section-title reveal">专业服务领域</h2>
+        <div class="products-grid">
+            <div class="card reveal">
+                <h3>定制化配方研发</h3>
+                <p>根据不同项目现场的土质、淤泥成分及含水率，开发专属固化剂配方，确保固化效果与工程成本达到最优平衡。</p>
+            </div>
+            <div class="card reveal">
+                <h3>现场技术与施工指导</h3>
+                <p>指派专业技术工程师深入工程一线，提供从设备选型、混合工艺、养护流程到现场施工的全方位技术支持。</p>
+            </div>
+            <div class="card reveal">
+                <h3>固废资源化利用咨询</h3>
+                <p>为市政清淤、建筑工地渣土、矿山尾矿等固废处理项目提供资源化利用评估及经济效益分析方案。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务流程 -->
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal">标准服务流程</h2>
+            <div class="process-grid reveal">
+                <div class="step-card">
+                    <div class="step-icon">1</div>
+                    <h3>需求沟通</h3>
+                    <p style="color: #646a73; margin-top: 10px;">专家团队进行一对一深度交流，明确核心诉求与业务痛点。</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">2</div>
+                    <h3>方案定制</h3>
+                    <p style="color: #646a73; margin-top: 10px;">通过实验室对土壤/淤泥取样分析，提供专属固化剂配方及处理方案建议。</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">3</div>
+                    <h3>项目交付</h3>
+                    <p style="color: #646a73; margin-top: 10px;">快速完成产品批量生产交付，配合技术人员指导施工，保障技术平滑落地。</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">4</div>
+                    <h3>长期维保</h3>
+                    <p style="color: #646a73; margin-top: 10px;">提供 7x24 小时技术支持与系统迭代升级，护航企业发展。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title reveal">交付成果示例</h2>
+        <div class="products-grid">
+            <div class="highlight-box reveal">
+                <h3>专属配方与测试报告</h3>
+                <p>输出针对特定土质的固化剂配比报告，以及实验室小试、中试的详细数据对比。</p>
+            </div>
+            <div class="highlight-box reveal">
+                <h3>现场施工工艺指导手册</h3>
+                <p>提供详尽的搅拌设备要求、配比操作规范、养护周期建议及施工过程质控要点。</p>
+            </div>
+            <div class="highlight-box reveal">
+                <h3>材料强度与环保检测支持</h3>
+                <p>配合第三方权威检测机构，协助客户获取固化后土体的抗压强度及重金属浸出等检测达标报告。</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background-color: #f8f9fa; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title reveal">服务保障体系</h2>
+            <div class="products-grid">
+                <div class="card reveal">
+                    <h3>跨学科专家团队</h3>
+                    <p>由材料、工艺、算法与项目管理专家协同服务，确保方案科学且可执行。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>项目制里程碑管理</h3>
+                    <p>每个阶段提供进度汇报与风险控制清单，让项目推进透明、可控、可追踪。</p>
+                </div>
+                <div class="card reveal">
+                    <h3>持续优化与复盘</h3>
+                    <p>项目交付后持续跟踪运行效果，基于数据复盘迭代，保障长期价值释放。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="official-cta reveal">
+        <h2>预约一对一技术评估</h2>
+        <p>由绿固专家团队结合你的业务目标，提供可执行的阶段方案与项目推进建议。</p>
+        <div class="btn-group">
+            <a href="contact.html" class="btn btn-primary">立即咨询</a>
+            <a href="product.html" class="btn btn-outline">查看产品方案</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <h3 class="footer-title">绿固科技有限公司</h3>
+                <p class="footer-text">科技赋能绿色，创新固本未来</p>
+                <p class="footer-text">地址：马鞍山创业园</p>
+                <p class="footer-text">电话：400-888-8888</p>
+            </div>
+            <div>
+                <h3 class="footer-title">快速导航</h3>
+                <a class="footer-link" href="product.html">核心产品</a><br>
+                <a class="footer-link" href="service.html">技术服务</a><br>
+                <a class="footer-link" href="about.html">关于我们</a><br>
+                <a class="footer-link" href="contact.html">联系我们</a>
+            </div>
+            <div>
+                <h3 class="footer-title">商务与招聘</h3>
+                <p class="footer-text">商务合作：business@lugu-tech.com</p>
+                <p class="footer-text">人才招聘：hr@lugu-tech.com</p>
+                <p class="footer-text">服务时间：工作日 09:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 绿固科技有限公司 版权所有 | 京ICP备 XXXXXXXX号 | 京公网安备 XXXXXXXXXX号
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        reveal();
+    </script>
+</body>
+</html>
