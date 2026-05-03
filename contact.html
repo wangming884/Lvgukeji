@@ -38,12 +38,29 @@
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             color: #ffffff;
             text-decoration: none;
             transition: color 0.3s ease;
-            letter-spacing: 2px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 3px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            line-height: 1;
+            white-space: nowrap;
         }
 
         .nav-scrolled .logo {
@@ -380,8 +397,13 @@
                 height: 58px;
             }
 
-            .logo {
-                font-size: 18px;
+            .logo img {
+                width: 34px;
+                height: 34px;
+            }
+
+            .logo-text {
+                font-size: 17px;
                 letter-spacing: 1px;
             }
 
@@ -441,7 +463,19 @@
             }
 
             .logo {
-                font-size: 16px;
+                gap: 8px;
+            }
+
+            .logo img {
+                width: 30px;
+                height: 30px;
+                border-radius: 6px;
+                padding: 2px;
+            }
+
+            .logo-text {
+                font-size: 13px;
+                letter-spacing: 0.5px;
             }
 
             .nav-links {
@@ -459,7 +493,10 @@
 </head>
 <body>
     <nav id="navbar">
-        <a href="index.html" class="logo">绿固科技 LÜGU</a>
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="绿固科技有限公司 Logo">
+            <span class="logo-text">绿固科技 LÜGU</span>
+        </a>
         <div class="nav-links">
             <a href="index.html">首页</a>
             <a href="product.html">核心产品</a>
